@@ -65,7 +65,10 @@ class AccuracyAwareCommon(Algorithm):
         self._grid_search_algo.default_algo = self._quantization_algo
 
         # Configure metrics
-        self._metrics_config = create_metric_config(self._engine, self._config)
+        self._metrics_config = create_metric_config(self._engine,
+                                                    self._config,
+                                                    self._config.get('force_logit_comparison', False),
+                                                    self._config.get('logit_distance_type', 'cosine'))
         self._baseline_metric = {metric.name: metric.baseline_value
                                  for metric in self._config.metrics
                                  if metric.name in self._metrics_config} \
